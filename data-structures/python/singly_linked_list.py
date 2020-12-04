@@ -14,7 +14,7 @@ class SinglyLinkedList:
         self.length = 0
 
     def __repr__(self):
-        return f"Head: {self.head} \nTail: {self.tail}\n Length: {self.length}\n"
+        return f"Head: {self.head} \n Length: {self.length}\n"
 
     # PUSH
     def push(self, value):
@@ -66,20 +66,62 @@ class SinglyLinkedList:
         self.length += 1
         return self.length
 
-    def get(self, index):
-        if (index >= 0 and index <= self.length):
+    def get_index(self, index):
+        if (index >= 0 and index < self.length):
             current = self.head
             for i in range(index):
                 current = current.next
             return current
 
-    def set(self, index, value):
+    def set_index(self, index, value):
+        if (index >= 0 and index < self.length):
+            node = self.get_index(index)
+            if (node is not None):
+                node.value = value
+                return node
+
+    def insert(self, index, value):
         if (index >= 0 and index <= self.length):
-            new_node = Node(value)
-            change_node = self.get(index)
-            if (change_node is not None):
-                change_node.value = value
-                return change_node
+            if (index == 0):
+                self.unshift(value)
+                return True
+            elif index == self.length:
+                self.push(value)
+                return True
+            else:
+                new_node = Node(value)
+                prev = self.get_index(index - 1)
+                if prev is not None:
+                    new_node.next = prev.next
+                    prev.next = new_node
+                    self.length += 1
+                    return True
+
+    def remove(self, index):
+        if (index >= 0 and index < self.length):
+            if (index == self.length - 1):
+                return self.pop()
+            elif (index == 0):
+                return self.shift()
+            else:
+                prev = self.get_index(index - 1)
+                removed_node = prev.next
+                prev.next = removed_node.next
+                self.length -= 1
+                return removed_node
+
+    def reverse(self):
+        node = self.head
+        self.head = self.tail
+        self.tail = node
+        next = None
+        prev = None
+        for i in range(self.length):
+            next = node.next
+            node.next = prev
+            prev = node
+            node = next
+        return self
 
 
 singly = SinglyLinkedList()
@@ -91,7 +133,7 @@ singly.push(2)
 # print("PUSH \n", singly)
 # singly.pop()
 # print("POP \n", singly)
-singly.unshift(3)
+singly.unshift(0)
 # print("UNSHIFT \n", singly)
 # singly.shift()
 # print("SHIFT \n", singly)
@@ -99,5 +141,9 @@ singly.unshift(3)
 # print(singly.get(1))
 # print(singly.get(2))
 
-print(singly.set(0, -1))
+print(singly.insert(0, -1))
+print(singly.insert(4, 4))
+print(singly.insert(4, 3))
+
 print(singly)
+print(singly.reverse())
