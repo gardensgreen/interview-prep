@@ -66,17 +66,38 @@ class SinglyLinkedList:
         self.length += 1
         return self.length
 
+    def get(self, index):
+        if (index >= 0 and index <= self.length):
+            current = self.head
+            for i in range(index):
+                current = current.next
+            return current
+
+    def set(self, index, value):
+        if (index >= 0 and index <= self.length):
+            new_node = Node(value)
+            change_node = self.get(index)
+            if (change_node is not None):
+                change_node.value = value
+                return change_node
+
 
 singly = SinglyLinkedList()
 
 
 singly.push(1)
-print("PUSH  \n", singly)
+# print("PUSH  \n", singly)
 singly.push(2)
-print("PUSH \n", singly)
-singly.pop()
-print("POP \n", singly)
+# print("PUSH \n", singly)
+# singly.pop()
+# print("POP \n", singly)
 singly.unshift(3)
-print("UNSHIFT \n", singly)
-singly.shift()
-print("SHIFT \n", singly)
+# print("UNSHIFT \n", singly)
+# singly.shift()
+# print("SHIFT \n", singly)
+# print(singly.get(0))
+# print(singly.get(1))
+# print(singly.get(2))
+
+print(singly.set(0, -1))
+print(singly)
